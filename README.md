@@ -4,7 +4,7 @@ php实现的基于 文件存储 的队列（目标）
 
 #计划 
 换一种实现方式，目前是在php代码中指定一个块的大小 
-...
+```php
 #test.php
 $file = "./Cache/memory";
 
@@ -26,4 +26,4 @@ for($i = 0; $i<$num; $i++){
 while($i = $queue->pop()){
     echo $i ."\n";
 }
-...
+```
