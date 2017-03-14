@@ -1,0 +1,21 @@
+{
+    "name": "kyanag/file-queue",
+    "description": "file-queue",
+    "authors": [
+        {
+            "name": "kyanag",
+            "email": "gongzuo_yk@foxmail.com"
+        }
+    ],
+    "require": {
+
+    },
+    "autoload":{
+        "psr-4":{
+            "Kyanag\\SubUnit\\FileQueue\\":""
+        },
+        "files":[
+            "Helper/Function.php"
+        ]
+    }
+}
