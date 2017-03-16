@@ -50,7 +50,7 @@ class FileMemory
 
     public function save($data){
         $res = fwrite($this->file, $data);
-        return ($res === false);
+        return ($res !== false);
     }
 
     public function seek($offset, $wherece = SEEK_SET){

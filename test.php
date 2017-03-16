@@ -5,25 +5,19 @@
  * Date: 2017/3/14
  * Time: 23:55
  */
-include "./vendor/autoload.php";
-
-$file = "./Cache/memory";
-
-//重置文件
-\Kyanag\SubUnit\FileQueue\Helper\resetFile($file);
-
-$queue = Kyanag\SubUnit\FileQueue\Queue\FileQueue::createFromFile($file);
-
-//设置元素大小 单位 字(8bit)，
-$queue->setSizeOf(10);
-$num = 10;
-
-echo $queue->pop() . "\n";
-
-for($i = 0; $i<$num; $i++){
-    $queue->push($i);
-}
-
-while($i = $queue->pop()){
-    echo $i ."\n";
+include "vendor/autoload.php";
+$file = "./log.log";
+\Kyanag\resetFile($file);
+try{
+    $queue = \Kyanag\SubUnit\FileQueue\Queue\FileQueue::createFromFile($file);
+    $index = 101;
+    for($i = 0; $i<$index; $i++){
+        $queue->push($i);
+    }
+    for($i = 0; $i<$index; $i++){
+        echo $queue->pop() . "\n";
+    }
+}catch(Exception $e){
+    unset($queue);
+    echo $e->getMessage() . "\n";
 }

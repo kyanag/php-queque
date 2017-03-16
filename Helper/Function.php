@@ -1,5 +1,5 @@
 <?php
-namespace  Kyanag\SubUnit\FileQueue\Helper;
+namespace  Kyanag;
 /**
  * Created by PhpStorm.
  * User: yk
@@ -14,6 +14,53 @@ function strToBin($str){
         $arr[] = base_convert($ascii_code, 16, 2);
     }
     return $arr;
+}
+
+function dump($file, $line, $obj){
+    echo sprintf("file:%s;line:%s\n", $file, $line);
+    var_dump($obj);
+}
+
+/**
+ * 字节转int类型
+ * @param $str
+ * @return int
+ */
+function binaryToUInt($str){
+    $len = count($str);
+    if($len > 4){
+        return -1;
+    }else{
+        $str .= str_repeat("\0", 4-$len);
+        return unpack("I", $str)[1];
+    }
+}
+
+function numberToAsciiArr($number){
+    $arr = array();
+    while($number > 256){
+        $asc = $number % 256;
+        $number = $number/256;
+        $arr[] = $asc;
+    }
+    $arr[] = $number;
+    return $arr;
+}
+
+function numberToBinary($number, $need_len = null){
+    $str = "";
+    $i = 0;
+    do{
+        $asc = $number % 256;
+        $number = intval($number/256);
+        $str .= chr($asc);
+        $i++;
+        if($need_len !== null && $i >= $need_len){
+            break;
+        }
+    }while($number != 0);
+    $str .= str_repeat("\0", $need_len - strlen($str));
+    return $str;
 }
 
 function resetFile($filename){
