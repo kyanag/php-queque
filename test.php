@@ -10,12 +10,19 @@ $file = "./log.log";
 \Kyanag\resetFile($file);
 try{
     $queue = \Kyanag\SubUnit\FileQueue\Queue\FileQueue::createFromFile($file);
-    $index = 101;
+    $index = 10;
     for($i = 0; $i<$index; $i++){
         $queue->push($i);
     }
     for($i = 0; $i<$index; $i++){
-        echo $queue->pop() . "\n";
+        echo $queue->pop() . " ";
+    }
+echo "\n--------\n";
+    for($i = 0; $i<$index; $i++){
+        $queue->push($i);
+    }
+    for($i = 0; $i<$index; $i++){
+        echo $queue->shift() . " ";
     }
 }catch(Exception $e){
     unset($queue);

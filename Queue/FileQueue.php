@@ -148,8 +148,8 @@ class FileQueue
                     $this->saveConfig(); //保存配置
                 }
                 $this->getStorage()->lock(LOCK_UN); //解锁
-                return $data;
-            }
+                return rtrim($data, "\0");
+        }
         }
         return null;
     }
