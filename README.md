@@ -6,15 +6,6 @@ php实现的基于 文件 的队列
 # 文件格式
 前10个字符为配置
 
-```php
-#test.php
-$file = "./Cache/memory";
-
-//重置文件
-\Kyanag\SubUnit\FileQueue\Helper\resetFile($file);
-
-$queue = Kyanag\SubUnit\FileQueue\Queue\FileQueue::createFromFile($file);
-
     1字节    一个元素占用空间（不大于256个字节）
     2字节    头指针归0次数
     34字节为 队列头部index （单位为一个元素）
