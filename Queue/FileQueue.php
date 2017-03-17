@@ -154,7 +154,9 @@ class FileQueue
         return null;
     }
 
-
+    public function getLen(){
+        return $this->now_size;
+    }
 
     private function getStorage(){
         return $this->storage;
@@ -281,6 +283,13 @@ class FileQueue
     private function setMaxSize($buffer){
         $max_size = \Kyanag\binaryToUInt($buffer);
         $this->max_size = $max_size;
+    }
+
+    public function getMaxSize($flag = false){
+        if($flag){
+            $this->loadConfig();
+        }
+        return $this->max_size;
     }
 
     public function __destruct()
