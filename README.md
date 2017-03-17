@@ -21,11 +21,21 @@ $file = "./log.log";
 try{
     $queue = \Kyanag\SubUnit\FileQueue\Queue\FileQueue::createFromFile($file);
     $index = 101;
+    
+    //先进先出
+    for($i = 0; $i<$index; $i++){
+        $queue->push($i);
+    }
+    for($i = 0; $i<$index; $i++){
+        echo $queue->pop() . "\n";
+    }
+    
+    //先进后出
     for($i = 0; $i<$index; $i++){
         $queue->push($i);
     }
     for($i = 0; $i<$index; $i++){
-        echo $queue->pop() . "\n";
+        echo $queue->shift() . "\n";
     }
 }catch(Exception $e){
     unset($queue);
