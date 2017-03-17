@@ -22,7 +22,7 @@ try{
     $queue = \Kyanag\SubUnit\FileQueue\Queue\FileQueue::createFromFile($file);
     $index = 101;
     
-    //先进先出
+    //先进后出
     for($i = 0; $i<$index; $i++){
         $queue->push($i);
     }
@@ -30,7 +30,7 @@ try{
         echo $queue->pop() . "\n";
     }
     
-    //先进后出
+    //先进先出
     for($i = 0; $i<$index; $i++){
         $queue->push($i);
     }
