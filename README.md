@@ -1,8 +1,22 @@
 # php-queque v0.02
 php实现的基于 文件存储 的队列
 
+<<<<<<< HEAD
 # 文件格式
 前10个字符为配置
+=======
+#计划 
+换一种实现方式 [另外一种实现](https://github.com/kyanag/php-queque/tree/dev)
+
+```php
+#test.php
+$file = "./Cache/memory";
+
+//重置文件
+\Kyanag\SubUnit\FileQueue\Helper\resetFile($file);
+
+$queue = Kyanag\SubUnit\FileQueue\Queue\FileQueue::createFromFile($file);
+>>>>>>> 5584bbcb839ef278dafa6d0faa887637799ba1af
 
     1字节    一个元素占用空间（不大于256个字节）
     2字节    头指针归0次数
