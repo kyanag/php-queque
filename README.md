@@ -3,7 +3,8 @@ php实现的基于 文件存储 的队列（目标）
 目前实现了数据结构-栈 push/pop
 
 #计划 
-换一种实现方式，目前是在php代码中指定一个块的大小 
+换一种实现方式 [另外一种实现](https://github.com/kyanag/php-queque/tree/dev)
+
 ```php
 #test.php
 $file = "./Cache/memory";
