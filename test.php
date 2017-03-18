@@ -1,30 +1,48 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yk
- * Date: 2017/3/14
- * Time: 23:55
- */
+  多个线程读写队列   - 测试
+  测试暂时不知道怎么用 phpunit 进行 多线程的测试
+  所以，先暂时用这个代替吧
+ **/
 include "vendor/autoload.php";
-$file = "./log.log";
+$id = intval(@$argv[1]);
+$file = "./cache/1.file";
+\clearstatcache();
 \Kyanag\resetFile($file);
-try{
-    $queue = \Kyanag\SubUnit\FileQueue\Queue\FileQueue::createFromFile($file);
-    $index = 10;
-    for($i = 0; $i<$index; $i++){
-        $queue->push($i);
+
+$queue = \Kyanag\SubUnit\FileQueue\Queue\FileQueue::createFromFile($file);
+
+if($id === 0){
+    $io = array(
+        0 => STDIN,
+        1 => STDOUT,
+    );
+    proc_open("php test.php 1", $io, $pipes);
+    proc_open("php test.php 2", $io, $pipes2);
+
+    while(1){
+        $time = time();
+        if($queue->push((string)$time)){
+            echo "main push time: {$time}\n";
+        }
+        sleep(1);
     }
-    for($i = 0; $i<$index; $i++){
-        echo $queue->pop() . " ";
+}else if($id == 1){
+    sleep(10);
+    while(1){
+        $a = $queue->shift();
+        if($a !== null){
+            echo "worker {$id} get time : {$a}\n";
+        }
+        sleep(2);
     }
-echo "\n--------\n";
-    for($i = 0; $i<$index; $i++){
-        $queue->push($i);
+}else{
+    sleep(10);
+    while(1){
+        $a = $queue->pop();
+        if($a !== null){
+            echo "worker {$id} get time : {$a}\n";
+        }
+        sleep(2);
     }
-    for($i = 0; $i<$index; $i++){
-        echo $queue->shift() . " ";
-    }
-}catch(Exception $e){
-    unset($queue);
-    echo $e->getMessage() . "\n";
 }

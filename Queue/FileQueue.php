@@ -79,10 +79,9 @@ class FileQueue
      */
     public function push($data){
         $data = (string)$data;
-        $insert_data = $data;
+        $this->loadConfig();//刷新配置
         if($this->now_size < $this->max_size){
             if($this->getStorage()->lock(LOCK_EX)){ //获取锁
-                $this->loadConfig();//刷新配置
                 //数据截断和填充
                 $data_len = strlen($data);
                 if($data_len > $this->sizeof){
@@ -110,9 +109,9 @@ class FileQueue
      * @return null|string
      */
     public function pop(){
+        $this->loadConfig();//刷新配置
         if($this->now_size > 0){
             if($this->getStorage()->lock(LOCK_EX)){ //获取锁
-                $this->loadConfig();//刷新配置
                 $this->go($this->bottom_index - 1);//去往尾部指针
 
                 $data = $this->getStorage()->read($this->sizeof);
@@ -134,13 +133,10 @@ class FileQueue
      * @return null|string
      */
     public function shift(){
+        $this->loadConfig();
         if($this->now_size > 0){
             if($this->getStorage()->lock(LOCK_EX)){ //获取锁
-                $this->loadConfig();
-
                 $this->go($this->head_index);
-                //刷新配置
-
                 $data = $this->getStorage()->read($this->sizeof);
                 if($data){
                     $this->now_size--;//容量 -1
@@ -328,5 +324,5 @@ class FileQueue
         $config .= \Kyanag\numberToBinary(100, 2);
         $this->getStorage()->seek(0);
         $this->getStorage()->save($config);
-}
+    }
 }

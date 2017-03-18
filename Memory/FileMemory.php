@@ -50,6 +50,7 @@ class FileMemory
 
     public function save($data){
         $res = fwrite($this->file, $data);
+        fflush($this->file);
         return ($res !== false);
     }
 
