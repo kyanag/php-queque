@@ -7,15 +7,12 @@
             "email": "gongzuo_yk@foxmail.com"
         }
     ],
-    "require": {
-        "phpunit/phpunit": "^5.7"
-    },
     "autoload":{
         "psr-4":{
-            "Kyanag\\SubUnit\\FileQueue\\":""
+            "Kyanag\\FileQueue\\":"src/"
         },
         "files":[
-            "Helper/Function.php"
+            "src/function.php"
         ]
     }
 }

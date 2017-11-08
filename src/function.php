@@ -1,5 +1,5 @@
 <?php
-namespace  Kyanag;
+namespace  Kyanag\FileQueue;
 /**
  * Created by PhpStorm.
  * User: yk
@@ -63,6 +63,11 @@ function numberToBinary($number, $need_len = null){
     return $str;
 }
 
+/**
+ * 清空/新建一个
+ * @param $filename string 文件名
+ * @param int $size int 文件大小
+ */
 function resetFile($filename){
     if(!is_file($filename)){
         fclose(fopen($filename, "w+"));

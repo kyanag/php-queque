@@ -1,14 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: yk
- * Date: 2017/3/13
- * Time: 18:52
- */
-
-namespace Kyanag\SubUnit\FileQueue\Queue;
-
-use Kyanag\SubUnit\FileQueue\Memory\FileMemory;
+namespace Kyanag\FileQueue;
 
 class FileQueue
 {
@@ -47,7 +38,7 @@ class FileQueue
             $memory = FileMemory::createFromFile($file);
             return static::createFormMemory($memory);
         }else{
-            throw new \Exception("file not exists!");
+            throw new \Exception("file not found!");
         }
     }
 
@@ -145,7 +136,7 @@ class FileQueue
                 }
                 $this->getStorage()->lock(LOCK_UN); //解锁
                 return rtrim($data, "\0");
-        }
+            }
         }
         return null;
     }
@@ -207,12 +198,12 @@ class FileQueue
 
     private function saveConfig(){
         $config = "";
-        $config .= \Kyanag\numberToBinary($this->sizeof, 1);
-        $config .= \Kyanag\numberToBinary($this->reset_num, 1);
-        $config .= \Kyanag\numberToBinary($this->head_index, 2);
-        $config .= \Kyanag\numberToBinary($this->bottom_index, 2);
-        $config .= \Kyanag\numberToBinary($this->now_size, 2);
-        $config .= \Kyanag\numberToBinary($this->max_size, 2);
+        $config .= \Kyanag\FileQueue\numberToBinary($this->sizeof, 1);
+        $config .= \Kyanag\FileQueue\numberToBinary($this->reset_num, 1);
+        $config .= \Kyanag\FileQueue\numberToBinary($this->head_index, 2);
+        $config .= \Kyanag\FileQueue\numberToBinary($this->bottom_index, 2);
+        $config .= \Kyanag\FileQueue\numberToBinary($this->now_size, 2);
+        $config .= \Kyanag\FileQueue\numberToBinary($this->max_size, 2);
 
         //记住当前地址
         $now_addr = $this->getStorage()->tell();
@@ -230,7 +221,7 @@ class FileQueue
      * @param $buffer
      */
     private function setSizeOf($buffer){
-        $sizeof = \Kyanag\binaryToUInt($buffer);
+        $sizeof = \Kyanag\FileQueue\binaryToUInt($buffer);
         $sizeof = $sizeof === 0 ? 256 : $sizeof;
         $this->sizeof = $sizeof;
     }
@@ -240,7 +231,7 @@ class FileQueue
      * @param $buffer
      */
     private function setResetNum($buffer){
-        $reset_num = \Kyanag\binaryToUInt($buffer);
+        $reset_num = \Kyanag\FileQueue\binaryToUInt($buffer);
         $reset_num = $reset_num === 0 ? 256 : $reset_num;
         $this->reset_num = $reset_num;
     }
@@ -250,7 +241,7 @@ class FileQueue
      * @param $buffer
      */
     private function setHeadIndex($buffer){
-        $head_index = \Kyanag\binaryToUInt($buffer);
+        $head_index = binaryToUInt($buffer);
         $this->head_index = $head_index;
     }
 
@@ -259,7 +250,7 @@ class FileQueue
      * @param $buffer
      */
     private function setBottomIndex($buffer){
-        $bottom_index = \Kyanag\binaryToUInt($buffer);
+        $bottom_index = binaryToUInt($buffer);
         $this->bottom_index = $bottom_index;
     }
 
@@ -268,7 +259,7 @@ class FileQueue
      * @param $buffer
      */
     private function setNowSize($buffer){
-        $now_size = \Kyanag\binaryToUInt($buffer);
+        $now_size = binaryToUInt($buffer);
         $this->now_size = $now_size;
     }
 
@@ -277,7 +268,7 @@ class FileQueue
      * @param $buffer
      */
     private function setMaxSize($buffer){
-        $max_size = \Kyanag\binaryToUInt($buffer);
+        $max_size = binaryToUInt($buffer);
         $this->max_size = $max_size;
     }
 
@@ -293,6 +284,9 @@ class FileQueue
         $this->getStorage()->close(); //关闭文件
     }
 
+    /**
+     * @return int
+     */
     private function checkFile(){
         $this->getStorage()->seek(0, SEEK_END);
         $now_addr = $this->getStorage()->tell();
@@ -316,12 +310,12 @@ class FileQueue
 
     public function initFile(){
         $config = "";
-        $config .= \Kyanag\numberToBinary(0, 1);
-        $config .= \Kyanag\numberToBinary(0, 1);
-        $config .= \Kyanag\numberToBinary(0, 2);
-        $config .= \Kyanag\numberToBinary(0, 2);
-        $config .= \Kyanag\numberToBinary(0, 2);
-        $config .= \Kyanag\numberToBinary(100, 2);
+        $config .= numberToBinary(0, 1);
+        $config .= numberToBinary(0, 1);
+        $config .= numberToBinary(0, 2);
+        $config .= numberToBinary(0, 2);
+        $config .= numberToBinary(0, 2);
+        $config .= numberToBinary(100, 2);
         $this->getStorage()->seek(0);
         $this->getStorage()->save($config);
     }

@@ -6,10 +6,10 @@
  * Time: 20:43
  */
 
-namespace Kyanag\SubUnit\FileQueue\Tests;
+namespace Kyanag\FileQueue\Tests;
 
 
-use Kyanag\SubUnit\FileQueue\Queue\FileQueue;
+use Kyanag\FileQueue\FileQueue;
 use PHPUnit\Framework\TestCase;
 
 class QueueTest extends TestCase
@@ -21,9 +21,9 @@ class QueueTest extends TestCase
      */
     public function testCreateQueue(){
         $file = "./Cache/log.log";
-        \Kyanag\resetFile($file);
+        \Kyanag\FileQueue\resetFile($file);
         $queue = FileQueue::createFromFile($file);
-        $this->assertInstanceOf('Kyanag\SubUnit\FileQueue\Queue\FileQueue', $queue);
+        $this->assertInstanceOf(FileQueue::class, $queue);
         return $queue;
     }
 

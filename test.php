@@ -4,13 +4,13 @@
   测试暂时不知道怎么用 phpunit 进行 多线程的测试
   所以，先暂时用这个代替吧
  **/
-include "vendor/autoload.php";
+include "./vendor/autoload.php";
 $id = intval(@$argv[1]);
-$file = "./cache/1.file";
+$file = "./memory";
 \clearstatcache();
-\Kyanag\resetFile($file);
+\Kyanag\FileQueue\resetFile($file);
 
-$queue = \Kyanag\SubUnit\FileQueue\Queue\FileQueue::createFromFile($file);
+$queue = \Kyanag\FileQueue\FileQueue::createFromFile($file);
 
 if($id === 0){
     $io = array(

@@ -1,46 +1,23 @@
-# php-queque v0.02
-php实现的基于 文件  的队列, 即把文件当做内存,进行操作
+# php-queque #
+php实现的基于 文件 的队列, 即把文件当做内存进行操作
 
-    push和弹出操作都会 给文件加锁
+## 说明 ##
+
+1. 文件当做容器, 所以本身就是可以持久化的
+2. 消息长度是固定的(消息就是一条队列数据)
+3. 完全基于php
 
 # 文件格式
-前10个字符为配置
+前10个字节为 队列描述
 
-    1字节    一个元素占用空间（不大于256个字节）
-    2字节    头指针归0次数
-    34字节为 队列头部index （单位为一个元素）
-    56字节为 队列尾部index
-    78字节为 当前元素数量
-    9,10字节为 最大元素数量
-
-之后的就是数据元素了
-
-```php
-#test.php
-include "vendor/autoload.php";
-$file = "./log.log";
-\Kyanag\resetFile($file);
-try{
-    $queue = \Kyanag\SubUnit\FileQueue\Queue\FileQueue::createFromFile($file);
-    $index = 101;
+    1字节    一个消息占用空间（不大于256个字节, 超出会截断）
+    2字节    头指针归0次数  (感觉这个好像没啥意义, 但是还是留着了)
+    34字节为 队列头部定位    (偏移量为 value * 消息大小即第一个字节的值)
+    56字节为 队列尾部定位    (同上)
+    78字节为 当前消息数量    
+    9,10字节为 最大消息数量  (队列容量, 因为头部尾部的关系, 最大256 * 256)
     
-    //先进后出
-    for($i = 0; $i<$index; $i++){
-        $queue->push($i);
-    }
-    for($i = 0; $i<$index; $i++){
-        echo $queue->pop() . "\n";
-    }
-    
-    //先进先出
-    for($i = 0; $i<$index; $i++){
-        $queue->push($i);
-    }
-    for($i = 0; $i<$index; $i++){
-        echo $queue->shift() . "\n";
-    }
-}catch(Exception $e){
-    unset($queue);
-    echo $e->getMessage() . "\n";
-}
-```
+    以后的就是消息内容了
+
+
+使用见 test.php

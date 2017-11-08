@@ -2,11 +2,11 @@
 /**
  * Created by PhpStorm.
  * User: yk
- * Date: 2017/3/13
- * Time: 20:58
+ * Date: 2017/11/8
+ * Time: 11:19
  */
 
-namespace Kyanag\SubUnit\FileQueue\Memory;
+namespace Kyanag\FileQueue;
 
 
 class FileMemory
@@ -21,7 +21,7 @@ class FileMemory
             $fhandle = fopen($file, "rb+");
             return new self($fhandle);
         }else{
-            throw new \Exception("not is file!");
+            throw new \Exception("file not found");
         }
     }
 
@@ -35,7 +35,7 @@ class FileMemory
         if(is_resource($file_ptr)){
             $this->file = $file_ptr;
         }else{
-            throw new \TypeError("need file pointer");
+            throw new \TypeError("need resource!");
         }
     }
 
