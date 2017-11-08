@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 # php-queque #
 php实现的基于 文件 的队列, 即把文件当做内存进行操作
-=======
-# php-queque v0.02
-php实现的基于 文件 的队列
->>>>>>> parent of 9f11275... Update README.md
+
 
 ## 说明 ##
 
